@@ -3,9 +3,10 @@ import WorkLog from './WorkLog'
 
 
 export const createRoutes = (store) => ({
-  path        : '/',
-  component   : CoreLayout,
-  childRoutes : [
+  path: '/',
+  component: CoreLayout,
+  indexRoute: { onEnter: (nextState, replace) => replace('/worklog') },
+  childRoutes: [
     WorkLog(store)
   ]
 })
