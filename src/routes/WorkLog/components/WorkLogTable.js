@@ -1,6 +1,7 @@
 import React from 'react'
+import moment from 'moment';
 
-const WorkLogTable = ({ data = [] }) => {
+const WorkLogTable = ({ data, removeWorkLog }) => {
     return (
         <table className="table">
             <thead>
@@ -9,16 +10,25 @@ const WorkLogTable = ({ data = [] }) => {
                     <th>Start time</th>
                     <th>End time</th>
                     <th>Comment</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 {
-                    data.map((el,i) => (
+                    data.map((el, i) => (
                         <tr key={i}>
-                            <td>{el.date }</td>
-                            <td>{el.startTime}</td>
-                            <td>{el.endTime}</td>
+                            <td>{moment(el.date).format('LL')}</td>
+                            <td>{moment(el.startTime).format('h:mm a')}</td>
+                            <td>{moment(el.endTime).format('h:mm a')}</td>
                             <td>{el.comment}</td>
+                            <td>
+                                <button type="button" className="btn  btn-danger" onClick={() => {
+                                    if (confirm('Are you sure? ')) {
+                                        removeWorkLog(el.id)
+
+                                    }
+                                }} >Remove </button>
+                            </td>
                         </tr>
                     ))
                 }

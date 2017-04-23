@@ -1,6 +1,10 @@
+import moment from 'moment';
+
 import data from '../../../../db.json'
+
+
 export const SET_SELECTED_MONTH = 'SET_SELECTED_MONTH';
-export const SET_ADD_DIALOG_VISIBITY = 'SET_ADD_DIALOG_VISIBILITY';
+export const REMOVE_WORKLOG = 'REMOVE_WORKLOG';
 export const SET_WORKLOGS = 'SET_WORKLOGS';
 export const ADD_WORKLOG = 'ADD_WORKLOG';
 
@@ -10,47 +14,53 @@ const createAction = (type) => (payload) => ({ type, payload })
 export const addWorkLog = createAction(ADD_WORKLOG);
 export const setSelectedMonth = createAction(SET_SELECTED_MONTH);
 export const setWorkLogs = createAction(SET_WORKLOGS);
-export const setAddDialogVisiblity = createAction(SET_ADD_DIALOG_VISIBITY);
+export const removeWorkLog = createAction(REMOVE_WORKLOG);
 
 export const actions = {
     addWorkLog,
     setSelectedMonth,
     setWorkLogs,
-    setAddDialogVisiblity
+    removeWorkLog
 }
 
 
 const worklogInitialState = {
-    worklogs: data,
+    list: data,
     selectedMonth: 0,
     dialogVisiblity: false,
 }
 
-// this is should be separeted reducers 
 export const worklog = (state = worklogInitialState, { type, payload }) => {
     switch (type) {
         case SET_WORKLOGS:
             return {
                 ...state,
-                worklogs: payload
+                list: payload
             };
         case SET_SELECTED_MONTH:
             return {
                 ...state,
                 selectedMonth: payload
             };
-        case SET_ADD_DIALOG_VISIBITY:
+        case REMOVE_WORKLOG:
             return {
                 ...state,
-                dialogVisiblity: payload
+                list: state.list.filter(el => el.id !== payload)
             }
         case ADD_WORKLOG:
-            // it is fine to use there data normalization instead of plain arrays
+            const worklogToAdd = {
+                ...payload,
+                date: moment(payload.date).format(),
+                startTime: moment(payload.startTime, 'h:mm').format(),
+                endTime: moment(payload.endTime, 'h:mm').format()
+            }
             return {
                 ...state,
-                worklogs: [state.worklogs, ...payload]
+                list: [...state.list, worklogToAdd]
             }
         default:
             return state
     }
 }
+
+export default worklog;
