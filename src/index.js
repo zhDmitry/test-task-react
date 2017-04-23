@@ -1,9 +1,10 @@
+import 'bootstrap';
+import './index.less';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
-import 'bootstrap';
-import './index.less';
+
 
 
 // ========================================================
@@ -27,7 +28,7 @@ let render = () => {
 }
 
 // This code is excluded from production bundle
-if (process.env.NODE_ENV=='development') {
+if (process.env.NODE_ENV === 'development') {
   if (module.hot) {
     // Development render functions
     const renderApp = render
@@ -37,7 +38,6 @@ if (process.env.NODE_ENV=='development') {
       ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
     }
 
-    // Wrap render in try/catch
     render = () => {
       try {
         renderApp()
@@ -47,7 +47,6 @@ if (process.env.NODE_ENV=='development') {
       }
     }
 
-    // Setup hot module replacement
     module.hot.accept('./routes/index', () =>
       setImmediate(() => {
         ReactDOM.unmountComponentAtNode(MOUNT_NODE)
@@ -57,7 +56,4 @@ if (process.env.NODE_ENV=='development') {
   }
 }
 
-// ========================================================
-// Go!
-// ========================================================
 render()

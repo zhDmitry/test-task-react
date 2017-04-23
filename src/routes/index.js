@@ -1,5 +1,5 @@
-import CoreLayout from '../layouts/CoreLayout'
-import WorkLog from './WorkLog'
+import CoreLayout from '../layouts/CoreLayout.js';
+import WorkLog from './WorkLog';
 
 
 export const createRoutes = (store) => ({
